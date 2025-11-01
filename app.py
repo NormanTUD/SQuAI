@@ -567,7 +567,8 @@ if submit and question:
         # Check for 503 on ask endpoint too
         #if ask_response.status_code == 503:
         #    show_503_page()
-        elif ask_response.status_code == 200:
+        #elif ask_response.status_code == 200:
+        if ask_response.status_code == 200:
             data = ask_response.json()
             answer = data.get("answer", "").replace("*", "")
             debug_info = data.get("debug_info", {})
