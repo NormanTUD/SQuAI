@@ -502,7 +502,8 @@ if submit and question:
     # Check if we got a 503 error
     #if split_response is not None and isinstance(split_response, dict) and split_response.get('is_503'):
     #    show_503_page()
-    elif split_response is not None and hasattr(split_response, 'status_code') and split_response.status_code == 200:
+    #elif split_response is not None and hasattr(split_response, 'status_code') and split_response.status_code == 200:
+    if split_response is not None and hasattr(split_response, 'status_code') and split_response.status_code == 200:
         split_data = split_response.json()
         should_split = split_data.get("should_split")
         sub_questions = split_data.get("sub_questions", [])
