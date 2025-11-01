@@ -500,8 +500,8 @@ if submit and question:
             st.error(f"❌ {e}")
 
     # Check if we got a 503 error
-    if split_response is not None and isinstance(split_response, dict) and split_response.get('is_503'):
-        show_503_page()
+    #if split_response is not None and isinstance(split_response, dict) and split_response.get('is_503'):
+    #    show_503_page()
     elif split_response is not None and hasattr(split_response, 'status_code') and split_response.status_code == 200:
         split_data = split_response.json()
         should_split = split_data.get("should_split")
@@ -556,15 +556,16 @@ if submit and question:
             try:
                 ask_response = requests.post(ask_url, json=ask_payload, timeout=120)
             except requests.exceptions.ConnectionError:
-                show_503_page()
+                #show_503_page()
+                st.error(f"❌ Error: {str(e)}")
                 st.stop()
             except Exception as e:
                 st.error(f"❌ Error: {str(e)}")
                 st.stop()
 
         # Check for 503 on ask endpoint too
-        if ask_response.status_code == 503:
-            show_503_page()
+        #if ask_response.status_code == 503:
+        #    show_503_page()
         elif ask_response.status_code == 200:
             data = ask_response.json()
             answer = data.get("answer", "").replace("*", "")
