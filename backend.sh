@@ -14,7 +14,7 @@ get_slurm_script () {
 		local logfile
 		scontrol show job "$1" | awk -F'Command=' '/Command=/{print $2}'
 	else
-		echo "scontrol nicht verfügbar." >&2
+		echo "scontrol not available." >&2
 		return 1
 	fi
 }
