@@ -5,6 +5,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=6
 #SBATCH --mem=128G
+#SBATCH --license=horse
 #SBATCH --gres=gpu:2
 #SBATCH --time=32:00:00
 #SBATCH --output=logs/fastapi_%j.log
