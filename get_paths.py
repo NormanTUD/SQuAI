@@ -114,6 +114,7 @@ def get_main_data_dir():
         "/data/horse/ws/squai-faiss/s3811141-faiss/inbe405h-unarxive",
         "/projects/p_scads_finetune/squai_faiss",
         "/data/horse/ws/inbe405h-unarxive",
+        "/data/horse/ws/s3811141-faiss/inbe405h-unarxive",
     ]
 
     resolved_path = None
