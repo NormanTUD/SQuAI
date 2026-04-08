@@ -26,7 +26,8 @@ try:
     print("✓ FastLlamaIndexBM25Retriever imported successfully")
     
     # Try creating instance
-    bm25_dir = "/data/horse/ws/s3811141-faiss/inbe405h-unarxive/bm25_retriever"
+    #bm25_dir = "/data/horse/ws/s3811141-faiss/inbe405h-unarxive/bm25_retriever"
+    bm25_dir = "/data/horse/ws/squai-faiss/inbe405h-unarxive/bm25_retriever"
     retriever = FastLlamaIndexBM25Retriever(bm25_dir, top_k=5)
     print("✓ FastLlamaIndexBM25Retriever instance created successfully")
     
