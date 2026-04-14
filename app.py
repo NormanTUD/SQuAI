@@ -410,7 +410,7 @@ def post_with_retry(url, payload, wait_between=30, max_retries=5, max_backend_re
         print(f"All {max_retries} attempts failed. Starting backend...")
         if start_backend():
             backend_restarts += 1
-            if not wait_for_backend("http://localhost:8000", timeout=120):
+            if not wait_for_backend("http://localhost:8000", timeout=600):
                 print("Backend did not become available in time.")
                 continue
         else:
@@ -578,7 +578,7 @@ if submit and question:
                 "sub_questions": sub_questions
             }
             try:
-                ask_response = requests.post(ask_url, json=ask_payload, timeout=120)
+                ask_response = requests.post(ask_url, json=ask_payload, timeout=600)
             except requests.exceptions.ConnectionError:
                 #show_503_page()
                 st.error(f"❌ Error: {str(e)}")
