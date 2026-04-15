@@ -472,6 +472,133 @@ def post_with_retry(url, payload, wait_between=30, max_retries=5, max_backend_re
 # Page Configuration
 status_color, status_message = check_external_api_health()
 st.set_page_config(page_title="SQuAI", layout="wide")
+st.markdown("""<style>
+/* ── Global fade-in on page load ── */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Every top-level Streamlit block fades in gently */
+.block-container {
+    animation: fadeInUp 0.5s ease-out both;
+}
+
+/* Stagger child elements for a cascading feel */
+.block-container > div:nth-child(1) { animation: fadeInUp 0.4s ease-out 0.05s both; }
+.block-container > div:nth-child(2) { animation: fadeInUp 0.4s ease-out 0.10s both; }
+.block-container > div:nth-child(3) { animation: fadeInUp 0.4s ease-out 0.15s both; }
+.block-container > div:nth-child(4) { animation: fadeInUp 0.4s ease-out 0.20s both; }
+.block-container > div:nth-child(5) { animation: fadeInUp 0.4s ease-out 0.25s both; }
+.block-container > div:nth-child(n+6) { animation: fadeInUp 0.4s ease-out 0.30s both; }
+
+/* ── Smooth transitions on ALL interactive elements ── */
+button, input, select, textarea,
+.stButton > button,
+.stTextInput > div > div > input,
+.stSelectbox > div > div,
+[data-testid="stExpander"],
+.stSlider > div {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* ── Buttons: lift on hover ── */
+.stButton > button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.08);
+}
+.stButton > button:active {
+    transform: translateY(0px);
+}
+
+/* ── Sidebar slides in from the left ── */
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-20px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+[data-testid="stSidebar"] > div:first-child {
+    animation: slideInLeft 0.4s ease-out both;
+}
+
+/* ── Expanders: smooth open/close ── */
+[data-testid="stExpander"] details[open] > summary ~ div {
+    animation: fadeInUp 0.3s ease-out both;
+}
+
+/* ── Spinner: softer pulse instead of harsh rotation ── */
+.stSpinner > div {
+    animation: fadeInUp 0.3s ease-out both;
+}
+
+/* ── Custom HTML boxes (your status/info divs): smooth entrance ── */
+.stMarkdown div[style*="border"] {
+    animation: fadeInUp 0.4s ease-out both;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.stMarkdown div[style*="border"]:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
+}
+
+/* ── Footer: fade in from bottom ── */
+@keyframes fadeInBottom {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.footer {
+    animation: fadeInBottom 0.6s ease-out 0.3s both;
+    transition: opacity 0.3s ease;
+}
+.footer a {
+    transition: color 0.2s ease, letter-spacing 0.2s ease;
+}
+.footer a:hover {
+    color: #fff !important;
+    letter-spacing: 0.3px;
+}
+
+/* ── Status dot: gentle pulse ── */
+.footer span[style*="border-radius: 50%"] {
+    animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 5px currentColor; }
+    50%      { box-shadow: 0 0 14px currentColor, 0 0 20px currentColor; }
+}
+
+/* ── Selectboxes & inputs: glow on focus ── */
+.stTextInput > div > div > input:focus,
+.stSelectbox > div > div:focus-within {
+    box-shadow: 0 0 0 2px rgba(100, 150, 255, 0.25) !important;
+    border-color: rgba(100, 150, 255, 0.5) !important;
+}
+
+/* ── Horizontal rules: fade in ── */
+hr {
+    animation: fadeInUp 0.3s ease-out both;
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #444, transparent);
+}
+
+/* ── Scrollbar: sleek and thin ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #777; }
+
+/* ── Bottom padding so content doesn't hide behind footer ── */
+.block-container { padding-bottom: 70px !important; }
+
+/* ── Smoother font rendering ── */
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+</style>""", unsafe_allow_html=True)
 st.title("SQuAI")
 
 # First, ensure you have the logic to define these variables before the markdown call
