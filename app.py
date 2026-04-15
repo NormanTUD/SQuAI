@@ -414,7 +414,7 @@ def check_external_api_health():
                 affected_models = model_names & set(AVAILABLE_MODELS)
                 
                 if not affected_models:
-                    return "green", "All relevant systems operational (some unused endpoints unhealthy)"
+                    return "green", "All relevant systems seem operational"
                 
                 names_str = ", ".join(affected_models)
                 affected_count = len(affected_models)
