@@ -451,10 +451,13 @@ status_color, status_message = check_external_api_health()
 st.set_page_config(page_title="SQuAI", layout="wide")
 st.title("SQuAI")
 
-st.markdown("""
+# First, ensure you have the logic to define these variables before the markdown call
+# status_color, status_message = check_external_api_health() 
+
+st.markdown(f"""
 <style>
 /* Footer fixieren */
-.footer {
+.footer {{
     position: fixed;
     bottom: 0;
     left: 0;
@@ -466,34 +469,35 @@ st.markdown("""
     font-size: 0.85em;
     z-index: 100;
     border-top: 1px solid #444;
-}
+}}
 
-.footer a {
+.footer a {{
     color: #aaa;
     text-decoration: none;
     margin: 0 15px;
-}
+}}
 
-.footer a:hover {
+.footer a:hover {{
     text-decoration: underline;
-}
+}}
 </style>
 
-<div class="footer">
+<div class="footer" title="{status_message}">
     <a href="https://scads.ai/imprint/" target="_blank">Impressum</a>
     <a href="https://scads.ai/privacy/" target="_blank">Datenschutzerklärung</a>
     <a href="https://scads.ai/accessibility/" target="_blank">Barrierefreiheit</a>
-
     <span style="
-            height: 12px;
-            width: 12px;
-            background-color: {status_color};
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 10px;
-            box-shadow: 0 0 5px {status_color};
-        "></span>
-    <span style="font-size: 0.9em; color: #aaa;">API Status</span>
+        height: 12px;
+        width: 12px;
+        background-color: {status_color};
+        border-radius: 50%;
+        display: inline-block;
+        margin-left: 10px;
+        margin-right: 5px;
+        vertical-align: middle;
+        box-shadow: 0 0 5px {status_color};
+    "></span>
+    <span style="font-size: 0.9em; color: #aaa; vertical-align: middle;">API Status</span>
 </div>
 """, unsafe_allow_html=True)
 
