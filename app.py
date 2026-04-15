@@ -474,25 +474,6 @@ status_color, status_message = check_external_api_health()
 st.set_page_config(page_title="SQuAI", layout="wide")
 st.markdown("""
 <style>
-/* ── Global fade-in on page load ── */
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Every top-level Streamlit block fades in gently */
-.block-container {
-    animation: fadeInUp 0.5s ease-out both;
-}
-
-/* Stagger child elements for a cascading feel */
-.block-container > div:nth-child(1) { animation: fadeInUp 0.4s ease-out 0.05s both; }
-.block-container > div:nth-child(2) { animation: fadeInUp 0.4s ease-out 0.10s both; }
-.block-container > div:nth-child(3) { animation: fadeInUp 0.4s ease-out 0.15s both; }
-.block-container > div:nth-child(4) { animation: fadeInUp 0.4s ease-out 0.20s both; }
-.block-container > div:nth-child(5) { animation: fadeInUp 0.4s ease-out 0.25s both; }
-.block-container > div:nth-child(n+6) { animation: fadeInUp 0.4s ease-out 0.30s both; }
-
 /* ── Smooth transitions on ALL interactive elements ── */
 button, input, select, textarea,
 .stButton > button,
