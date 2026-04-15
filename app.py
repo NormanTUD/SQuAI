@@ -408,11 +408,18 @@ def check_external_api_health():
             else:
                 # Extract model names from the unhealthy_endpoints list
                 unhealthy_list = data.get("unhealthy_endpoints", [])
-                # We use a set to avoid duplicates if multiple IDs for the same model are down
                 model_names = {item.get("model", "Unknown Model") for item in unhealthy_list}
-                names_str = ", ".join(model_names)
                 
-                return "yellow", f"Warning: {unhealthy_count} unhealthy endpoint(s): {names_str}"
+                # Only flag models that are in AVAILABLE_MODELS
+                affected_models = model_names & set(AVAILABLE_MODELS)
+                
+                if not affected_models:
+                    return "green", "All relevant systems operational (some unused endpoints unhealthy)"
+                
+                names_str = ", ".join(affected_models)
+                affected_count = len(affected_models)
+                
+                return "yellow", f"Warning: {affected_count} unhealthy endpoint(s) affecting available models: {names_str}"
         
         return "red", f"API Error: {response.status_code}"
     except Exception as e:
