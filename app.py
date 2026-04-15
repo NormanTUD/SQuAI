@@ -382,8 +382,7 @@ def check_external_api_health():
     try:
         # Note: You'll need to ensure $LLM_MODELS_TOKEN is in your environment
         api_key = (
-            api_key 
-            or os.environ.get("SCADS_API_KEY") 
+            os.environ.get("SCADS_API_KEY") 
             or (open(os.path.expanduser("/etc/scads_api_key")).read().strip() if os.path.exists(os.path.expanduser("/etc/scads_api_key")) else None)
             or (open("/etc/scads_agent_api_key").read().strip() if os.path.exists("/etc/etc/scads_agent_api_key") else None)
         )
