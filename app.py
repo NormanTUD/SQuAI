@@ -451,7 +451,7 @@ status_color, status_message = check_external_api_health()
 st.set_page_config(page_title="SQuAI", layout="wide")
 st.title("SQuAI")
 
-st.markdown(f"""
+st.markdown("""
 <style>
 /* Footer fixieren */
 .footer {
