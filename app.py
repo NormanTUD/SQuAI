@@ -492,14 +492,6 @@ button, input, select, textarea,
 .stButton > button:active {
     transform: translateY(0px);
 }
-
-.footer span[style*="border-radius: 50%"] {
-    animation: pulse 2s ease-in-out infinite;
-}
-@keyframes pulse {
-    0%, 100% { box-shadow: 0 0 5px currentColor; }
-    50%      { box-shadow: 0 0 14px currentColor, 0 0 20px currentColor; }
-}
 </style>
 """, unsafe_allow_html=True)
 st.title("SQuAI")
