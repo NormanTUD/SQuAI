@@ -377,26 +377,33 @@ def check_backend_available(url, timeout=5):
         return False
 
 def check_external_api_health():
-    """Checks the ScaDS AI LLM health endpoint"""
+    """Checks the ScaDS AI LLM health endpoint and identifies specific unhealthy models"""
     url = "https://llm.scads.ai/health"
     try:
-        # Note: You'll need to ensure $LLM_MODELS_TOKEN is in your environment
         api_key = (
-            os.environ.get("SCADS_API_KEY") 
+            os.environ.get("SCADS_API_KEY")
             or (open(os.path.expanduser("/etc/scads_api_key")).read().strip() if os.path.exists(os.path.expanduser("/etc/scads_api_key")) else None)
             or (open("/etc/scads_agent_api_key").read().strip() if os.path.exists("/etc/etc/scads_agent_api_key") else None)
         )
-
+        
         headers = {"Authorization": f"Bearer {api_key}"}
         response = requests.get(url, headers=headers, timeout=5)
-
+        
         if response.status_code == 200:
             data = response.json()
             unhealthy_count = data.get("unhealthy_count", 0)
+            
             if unhealthy_count == 0:
                 return "green", "All systems operational"
             else:
-                return "yellow", f"Warning: {unhealthy_count} endpoints are unhealthy"
+                # Extract model names from the unhealthy_endpoints list
+                unhealthy_list = data.get("unhealthy_endpoints", [])
+                # We use a set to avoid duplicates if multiple IDs for the same model are down
+                model_names = {item.get("model", "Unknown Model") for item in unhealthy_list}
+                names_str = ", ".join(model_names)
+                
+                return "yellow", f"Warning: {unhealthy_count} unhealthy endpoint(s): {names_str}"
+        
         return "red", f"API Error: {response.status_code}"
     except Exception as e:
         return "red", f"Connection failed: {str(e)}"
