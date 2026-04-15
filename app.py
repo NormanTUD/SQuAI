@@ -1,4 +1,5 @@
 import sys
+import json
 
 try:
     import streamlit as st
@@ -375,6 +376,32 @@ def check_backend_available(url, timeout=5):
     except:
         return False
 
+def check_external_api_health():
+    """Checks the ScaDS AI LLM health endpoint"""
+    url = "https://llm.scads.ai/health"
+    try:
+        # Note: You'll need to ensure $LLM_MODELS_TOKEN is in your environment
+        api_key = (
+            api_key 
+            or os.environ.get("SCADS_API_KEY") 
+            or (open(os.path.expanduser("/etc/scads_api_key")).read().strip() if os.path.exists(os.path.expanduser("/etc/scads_api_key")) else None)
+            or (open("/etc/scads_agent_api_key").read().strip() if os.path.exists("/etc/etc/scads_agent_api_key") else None)
+        )
+
+        headers = {"Authorization": f"Bearer {api_key}"}
+        response = requests.get(url, headers=headers, timeout=5)
+
+        if response.status_code == 200:
+            data = response.json()
+            unhealthy_count = data.get("unhealthy_count", 0)
+            if unhealthy_count == 0:
+                return "green", "All systems operational"
+            else:
+                return "yellow", f"Warning: {unhealthy_count} endpoints are unhealthy"
+        return "red", f"API Error: {response.status_code}"
+    except Exception as e:
+        return "red", f"Connection failed: {str(e)}"
+
 def post_with_retry(url, payload, wait_between=30, max_retries=5, max_backend_restarts=5):
     backend_restarts = 0
 
@@ -420,6 +447,7 @@ def post_with_retry(url, payload, wait_between=30, max_retries=5, max_backend_re
     raise RuntimeError(f"POST failed after {max_backend_restarts} backend restarts")
 
 # Page Configuration
+status_color, status_message = check_external_api_health()
 st.set_page_config(page_title="SQuAI", layout="wide")
 st.title("SQuAI")
 
@@ -455,6 +483,17 @@ st.markdown("""
     <a href="https://scads.ai/imprint/" target="_blank">Impressum</a>
     <a href="https://scads.ai/privacy/" target="_blank">Datenschutzerklärung</a>
     <a href="https://scads.ai/accessibility/" target="_blank">Barrierefreiheit</a>
+
+    <span style="
+            height: 12px;
+            width: 12px;
+            background-color: {status_color};
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+            box-shadow: 0 0 5px {status_color};
+        "></span>
+    <span style="font-size: 0.9em; color: #aaa;">API Status</span>
 </div>
 """, unsafe_allow_html=True)
 
